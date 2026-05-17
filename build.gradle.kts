@@ -9,6 +9,8 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+    withJavadocJar()
+    withSourcesJar()
 }
 
 
@@ -34,10 +36,6 @@ tasks.test {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-//            groupId = "org.gradle.sample"
-//            artifactId = "library"
-//            version = "1.1"
-
             from(components["java"])
         }
     }
