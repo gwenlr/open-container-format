@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.github.gwenlr.commons"
+group = "com.github.gwenlr"
 
 java {
     toolchain {
