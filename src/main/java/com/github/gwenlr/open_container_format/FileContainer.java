@@ -34,7 +34,7 @@ public interface FileContainer {
     @NonNull FileContainer addFileEntry(@NonNull String path, @NonNull String mediaType, @NonNull String content, @NonNull String version);
 
     default @NonNull FileContainer addFileEntry(@NonNull String path, @NonNull String mediaType, @NonNull String content) {
-        return addFileEntry(path, content, mediaType, "0");
+        return addFileEntry(path, mediaType, content, "0");
     }
 
     @NonNull FileContainer addFileEntry(@NonNull String path, @NonNull String mediaType, byte @NonNull [] content, @NonNull String version);
