@@ -36,6 +36,6 @@ public final class StandardProperties {
     public static final String FILE_ENTRY_MEDIA_TYPE = "media-type";
     public static final String FILE_ENTRY_VERSION = "version";
 
-    public static final String MANIFEST_FULL_PATH = "/META-INF/manifest";
+    public static final String MANIFEST_FULL_PATH = "META-INF/manifest";
 
 }

@@ -45,24 +45,24 @@ class MemoryFileContainerTest {
 
     @Test
     void addFileEntry_noVersion_text() {
-        container.addFileEntry("/toto.txt", "text/plain", "content");
+        container.addFileEntry("toto.txt", "text/plain", "content");
     }
 
     @Test
     void addFileEntry_version_text() {
-        container.addFileEntry("/toto.txt", "text/plain", "content", "4");
+        container.addFileEntry("toto.txt", "text/plain", "content", "4");
     }
 
     @Test
     void addFileEntry_noVersion_binary() {
         byte[] content = "content".getBytes();
-        container.addFileEntry("/toto.bin", "application/octet-stream", content);
+        container.addFileEntry("toto.bin", "application/octet-stream", content);
     }
 
     @Test
     void addFileEntry_version_binary() {
         byte[] content = "content".getBytes();
-        container.addFileEntry("/toto.bin", "application/octet-stream", content, "5");
+        container.addFileEntry("toto.bin", "application/octet-stream", content, "5");
 
     }
 
@@ -74,8 +74,8 @@ class MemoryFileContainerTest {
 
     @Test
     void toBinaryContent_filled() {
-        container.addFileEntry("/toto.txt", "text/plain", "toto");
-        container.addFileEntry("/tata.txt", "text/plain", "tata");
+        container.addFileEntry("toto.txt", "text/plain", "toto");
+        container.addFileEntry("tata.txt", "text/plain", "tata");
         container.setManifestProperty("xxx", "abc");
         container.setManifestProperty("yyy", "def");
 
@@ -123,20 +123,20 @@ class MemoryFileContainerTest {
     @Test
     void loadFromBinaryContent_filled_with_files() {
         var container2 = new MemoryFileContainer();
-        container2.addFileEntry("/a/b/c", "text/plain", "content", "0");
-        container2.addFileEntry("/toto.txt", "text/html", "toto", "1");
-        container2.addFileEntry("/tata.txt", "text/csv", "tata", "2");
+        container2.addFileEntry("a/b/c", "text/plain", "content", "0");
+        container2.addFileEntry("toto.txt", "text/html", "toto", "1");
+        container2.addFileEntry("tata.txt", "text/csv", "tata", "2");
 
         var content = container2.toBinaryContent();
 
         container.loadFromBinaryContent(content);
 
         assertThat(container2.getFilePaths())
-                .containsOnly("/a/b/c", "/toto.txt", "/tata.txt");
+                .containsOnly("a/b/c", "toto.txt", "tata.txt");
 
-        assertContainsFile("/a/b/c", "text/plain", "content", "0");
-        assertContainsFile("/toto.txt", "text/html", "toto", "1");
-        assertContainsFile("/tata.txt", "text/csv", "tata", "2");
+        assertContainsFile("a/b/c", "text/plain", "content", "0");
+        assertContainsFile("toto.txt", "text/html", "toto", "1");
+        assertContainsFile("tata.txt", "text/csv", "tata", "2");
     }
 
     private void assertContainsFile(String path, String mediaType, String content, String version) {
@@ -203,23 +203,23 @@ class MemoryFileContainerTest {
     @Test
     @DisplayName("containsFileEntry shall return false when file not registered")
     void containsFileEntry_not_found() {
-        assertThat(container.containsFileEntry("/toto.txt"))
+        assertThat(container.containsFileEntry("toto.txt"))
                 .isFalse();
     }
 
     @Test
     @DisplayName("containsFileEntry shall return true when file registered")
     void containsFileEntry_found() {
-        container.addFileEntry("/a/b/c", "text/plain", "content", "0");
+        container.addFileEntry("a/b/c", "text/plain", "content", "0");
 
-        assertThat(container.containsFileEntry("/a/b/c"))
+        assertThat(container.containsFileEntry("a/b/c"))
                 .isTrue();
     }
 
     @Test
     @DisplayName("getFileContentAsString shall return null when file not registered")
     void getFileContentAsString_not_found() {
-        assertThat(container.getFileContentAsString("/a/b"))
+        assertThat(container.getFileContentAsString("a/b"))
                 .isNull();
     }
 
@@ -227,16 +227,16 @@ class MemoryFileContainerTest {
     @DisplayName("getFileContentAsString shall return file content when file registered")
     void getFileContentAsString_found() {
         String content = "content";
-        container.addFileEntry("/a/b/c", "text/plain", content, "0");
+        container.addFileEntry("a/b/c", "text/plain", content, "0");
 
-        assertThat(container.getFileContentAsString("/a/b/c"))
+        assertThat(container.getFileContentAsString("a/b/c"))
                 .isEqualTo(content);
     }
 
     @Test
     @DisplayName("getFileContentAsBinary shall return null when file not registered")
     void getFileContentAsBinary_not_found() {
-        assertThat(container.getFileContentAsBinary("/a/b"))
+        assertThat(container.getFileContentAsBinary("a/b"))
                 .isNull();
     }
 
@@ -244,28 +244,28 @@ class MemoryFileContainerTest {
     @DisplayName("getFileContentAsBinary shall return file content when file registered")
     void getFileContentAsBinary_found() {
         byte[] content = "content".getBytes();
-        container.addFileEntry("/a/b/c", "application/octet-stream", content, "0");
+        container.addFileEntry("a/b/c", "application/octet-stream", content, "0");
 
-        assertThat(container.getFileContentAsBinary("/a/b/c"))
+        assertThat(container.getFileContentAsBinary("a/b/c"))
                 .isEqualTo(content);
     }
 
     @Test
     @DisplayName("getFileMetadata shall return null when file not registered")
     void getFileMetadata_not_found() {
-        assertThat(container.getFileMetadata("/a/b"))
+        assertThat(container.getFileMetadata("a/b"))
                 .isNull();
     }
 
     @Test
     @DisplayName("getFileMetadata shall return metadata when file registered")
     void getFileMetadata_found() {
-        container.addFileEntry("/a/b/c", "text/plain", "content", "0");
+        container.addFileEntry("a/b/c", "text/plain", "content", "0");
 
-        assertThat(container.getFileMetadata("/a/b/c"))
+        assertThat(container.getFileMetadata("a/b/c"))
                 .isNotNull()
                 .extracting("fullPath", "mediaType", "version")
-                .containsOnly("/a/b/c", "text/plain", "0");
+                .containsOnly("a/b/c", "text/plain", "0");
     }
 
 
@@ -279,11 +279,11 @@ class MemoryFileContainerTest {
     @Test
     @DisplayName("getFilePaths shall return empty set when no registered files")
     void getFilePaths_filled() {
-        container.addFileEntry("/a/b/c", "text/plain", "content", "0");
-        container.addFileEntry("/toto.txt", "text/plain", "content", "0");
-        container.addFileEntry("/tata.txt", "text/plain", "content", "0");
+        container.addFileEntry("a/b/c", "text/plain", "content", "0");
+        container.addFileEntry("toto.txt", "text/plain", "content", "0");
+        container.addFileEntry("tata.txt", "text/plain", "content", "0");
 
         assertThat(container.getFilePaths())
-                .containsOnly("/a/b/c", "/toto.txt", "/tata.txt");
+                .containsOnly("a/b/c", "toto.txt", "tata.txt");
     }
 }

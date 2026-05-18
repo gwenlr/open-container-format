@@ -204,13 +204,13 @@ class ManifestTest {
     @DisplayName("contains shall return true when file entry exists")
     void contains_file_exists() {
         manifest.addFileEntry(new FileMetadata(
-                "/x/y/z",
+                "x/y/z",
                 "text/plain",
                 "0"
         ));
 
         assertThat(
-                manifest.contains("/x/y/z")
+                manifest.contains("x/y/z")
         ).isTrue();
     }
 
@@ -218,7 +218,7 @@ class ManifestTest {
     @DisplayName("contains shall return true when file entry does not exist")
     void contains_file_not_exists() {
         assertThat(
-                manifest.contains("/x/y/z")
+                manifest.contains("x/y/z")
         ).isFalse();
     }
 
@@ -244,13 +244,13 @@ class ManifestTest {
     @DisplayName("containsFile shall return true when file exists")
     void containsFile_exist() {
         manifest.addFileEntry(new FileMetadata(
-                "/x/y/z",
+                "x/y/z",
                 "text/plain",
                 "0"
         ));
 
         assertThat(
-                manifest.containsFile("/x/y/z")
+                manifest.containsFile("x/y/z")
         ).isTrue();
     }
 
@@ -259,7 +259,7 @@ class ManifestTest {
     void containsFile_not_exist() {
 
         assertThat(
-                manifest.containsFile("/x/y/z")
+                manifest.containsFile("x/y/z")
         ).isFalse();
     }
 
@@ -268,14 +268,14 @@ class ManifestTest {
     @DisplayName("getFileEntry shall return the entry when it exists")
     void getFileEntry_exist() {
         manifest.addFileEntry(new FileMetadata(
-                "/x/y/z",
+                "x/y/z",
                 "text/plain",
                 "0"
         ));
 
-        assertThat(manifest.getFileEntry("/x/y/z"))
+        assertThat(manifest.getFileEntry("x/y/z"))
                 .extracting("fullPath", "mediaType", "version")
-                .contains("/x/y/z",
+                .contains("x/y/z",
                         "text/plain",
                         "0");
     }
@@ -283,19 +283,19 @@ class ManifestTest {
     @Test
     @DisplayName("getFileEntry shall return null when the entry does not exist")
     void getFileEntry_not_exist() {
-        assertThat(manifest.getFileEntry("/x/y/z"))
+        assertThat(manifest.getFileEntry("x/y/z"))
                 .isNull();
     }
 
     @Test
     void addFileEntry() {
         manifest.addFileEntry(new FileMetadata(
-                "/x/y/z",
+                "x/y/z",
                 "text/plain",
                 "0"
         ));
 
-        assertThat(manifest.containsFileEntry("/x/y/z"))
+        assertThat(manifest.containsFileEntry("x/y/z"))
                 .isTrue();
     }
 
