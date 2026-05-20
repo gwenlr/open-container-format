@@ -110,7 +110,7 @@ public class MemoryFileContainer implements FileContainer {
             loadFromZip(zipIn);
 
         } catch (IOException ex) {
-            throw new UncheckedIOException(ex);
+            throw new InvalidFileFormatException("Fail to load binary content",ex);
         }
     }
 
@@ -127,7 +127,7 @@ public class MemoryFileContainer implements FileContainer {
 
     private void loadManifest(@NonNull ZipInputStream zipIn, @Nullable ZipEntry entry) throws IOException {
         if (entry == null) {
-            throw new IOException("Manifest entry is missing");
+            throw new InvalidFileFormatException("Manifest entry is missing");
         }
 
         var fullPath = entry.getName();
